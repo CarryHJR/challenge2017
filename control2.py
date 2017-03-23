@@ -13,24 +13,28 @@ flagPay = False
 
 
 def Pay():
-
     driverPay = webdriver.Chrome()
     url = 'https://auth.alipay.com/login/index.htm'
     driverPay.get(url)
+    '''
+    time.sleep(2)
     name = driverPay.find_element_by_id('J-input-user')
     name.send_keys('15155676576')
-    pwd = driverPay.find_element_by_id('password_input')
+    pwd = driverPay.find_element_by_id('password_rsainput')
     pwd.send_keys('hnh7176564')
+    '''
 
     while (driverPay.current_url == url):
         pass
-    print driverPay.current_url
+
+    money = driverPay.find_element_by_xpath('//*[@id="J-assets-balance"]/div[1]/div/div[2]/div/strong/span').text
+
     while True:
         time.sleep(0.5)
         driverPay.refresh()
         money = driverPay.find_element_by_xpath(
             '//*[@id="J-assets-balance"]/div[1]/div/div[2]/div/strong').text
-        if float(money) > 0.01:
+        if float(money) > float(money):
             break
     global flagPay
     flagPay = True
@@ -46,65 +50,53 @@ driverShop.get(
     'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/home.html')
 
 # RFID环节
-serRFID = serial.Serial('Com11', baudrate=115200)
+serRFID = serial.Serial('/dev/ttyUSB0', baudrate=115200, timeout = 0.5)
 # port = "/dev/ttyUSB2"
 
 goods = set()
 print u'串口打开'
 while 1:
     line = serRFID.readline().strip()
-    if (line[0], line[-1]) == ('A', '1'):
-        set.add(1)
+    if line != '':
+        print 'something receive'
+        if (line[0], line[-1]) == ('A', '1'):
+            goods.add(1)
 
-    if (line[0], line[-1]) == ('L', '1'):
-        set.remove(1)
+        if (line[0], line[-1]) == ('L', '1'):
+            goods.remove(1)
 
-    if (line[0], line[-1]) == ('A', '2'):
-        set.add(2)
+        if (line[0], line[-1]) == ('A', '2'):
+            goods.add(2)
 
-    if (line[0], line[-1]) == ('L', '2'):
-        set.remove(2)
+        if (line[0], line[-1]) == ('L', '2'):
+            goods.remove(2)
 
-
-    l = ''
+    goodstr = ''
     for x in goods:
-        l = l+str(x)
+        goodstr = goodstr + str(x)
 
-    if l == '':
+    if goodstr == '':
         driverShop.get(
             'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart.html')
 
-    if l == '1':
+    if goodstr == '1':
         driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart1.html')
+            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart31.html')
 
-    if l == '2':
+    if goodstr == '2':
         driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart2.html')
+            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart32.html')
 
-    if l == '12':
+    if goodstr == '12':
         driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart12.html')
+            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart312.html')
 
-    if l == '21':
+    if goodstr == '21':
         driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart21.html')
-    '''
-    if (line[0], line[-1]) == ('A', '1'):
-        set.add(1)
-        print u'接收到1号商品'
-        driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart1.html')
+            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart321.html')
 
-    if (line[0], line[-1]) == ('A', '2'):
-        print u'接收到2号商品'
-        driverShop.get(
-            'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/shopcart2.html')
-        break
-    '''
     if driverShop.current_url.find('pay') != -1:
         break
-
 
 
 while flagPay is False:
