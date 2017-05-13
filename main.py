@@ -53,7 +53,7 @@ d = threading.Thread(target=dist)
 d.start()
 '''
 # open the serial port of motion
-serMove = serial.Serial(port='/dev/ttyUSB0', baudrate=115200)
+#serMove = serial.Serial(port='/dev/ttyUSB0', baudrate=115200)
 
 
 # first of all: get home.html
@@ -71,6 +71,8 @@ flagCamshift = False
 url = ''
 
 # the thread of pay starts
+
+
 def Pay():
     driverPay = webdriver.Chrome()
     url = 'https://auth.alipay.com/login/index.htm'
@@ -99,7 +101,6 @@ payThread.start()
 print 'alipay thread starts'
 
 
-
 class App(object):
 
     def __init__(self):
@@ -107,7 +108,7 @@ class App(object):
         # self.ser = serial.Serial(port='/dev/ttyUSB1', baudrate=115200)
         global serMove
         self.ser = serMove
-        #self.serDist = serial.Serial(
+        # self.serDist = serial.Serial(
         #    port='/dev/ttyUSB0', baudrate=115200, timeout=1)
         # print 'test2'
         self.cam = video.create_capture(0)
@@ -121,10 +122,10 @@ class App(object):
         self.flagForward = True
 
     def run(self):
-        i = 0
+        # i = 0
         while True:
             # time.sleep(0.001)
-            i = i + 1
+            # i = i + 1
             ret, self.frame = self.cam.read()
             vis = self.frame.copy()
 
@@ -179,26 +180,6 @@ class App(object):
                 self.flag = True
                 self.ser.write('stop\r\n')
                 # threading.Thread(target=Move().runStop())
-            '''
-            if i == 10:
-                self.serDist.write('start\r\n')
-                distance = self.serDist.readline().strip()
-                i = 0
-            '''
-            '''
-            global distance
-            print 'gets', distance
-            if float(distance) > 50 and self.flagForward:
-                print '33333333333333333333333333333333333333333333333333333333333333'
-                self.flagForward = False
-                self.ser.write('move straight:300,30000\r\n')
-
-            if float(distance) > 15 and float(distance) < 100 and self.flagForward is False:
-                self.flagForward = True
-                print '6666666666666666666666666666666666666666666666666666666666666666'
-                self.ser.write('stop\r\n')
-                # print distance
-            '''
 
             cv2.imshow('camshift', vis)
 
@@ -208,13 +189,12 @@ class App(object):
             if url.find('daohanging') != -1:
                 break
 
-
             if ch == 27:
                 break
         cv2.destroyAllWindows()
 
 # RFID环节
-serRFID = serial.Serial('/dev/ttyUSB1', baudrate=115200, timeout = 0.5)
+serRFID = serial.Serial('/dev/ttyUSB1', baudrate=115200, timeout=0.5)
 # port = "/dev/ttyUSB2"
 
 
@@ -233,30 +213,14 @@ while True:
             print line
             if line.find('OK') != -1:
                 break
-        '''
-        print 'zhizou ok'
-        serMove.write('right rotating:12000,90\r\n')
-        # turn left
-        while True:
-            line = serMove.readline().strip()
-            if line.find('OK') != -1:
-                break
-        print 'left ok'
-        # go straight
-        serMove.write('move straight:300,400\r\n')
-        while True:
-            line = serMove.readline().strip()
-            if line.find('OK') != -1:
-                break
-        '''
+
         print 'daohang over'
         driverShop.get(
             'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/introduction3.html')
 
-
-
-    line = serRFID.readline().strip()
+    # line = serRFID.readline().strip()
     # here, someone throws something OK
+    line = ''
     if line != '':
         print 'someone buys', line
         if (line[0], line[-1]) == ('A', '1'):
@@ -300,13 +264,13 @@ while True:
     # here, someone pays OK
     if url.find('pay') != -1:
         print 'someone pays'
-        # flagPay = True
+        flagPay = True
         while flagPay is False:
             pass
         # pay successfully
         urlSuccess = 'file:///home/carry/workplace/MyPython/challenge/wwwroot2/www.lovingling.com/success.html'
         driverShop.get(urlSuccess)
-        serRFID.write('KILL\r\n')
+        # serRFID.write('KILL\r\n')
 
     # camshift
     if url.find('daohanging') != -1:

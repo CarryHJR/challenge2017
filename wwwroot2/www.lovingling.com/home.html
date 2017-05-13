@@ -2,6 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 	<head>
+		<script type="text/javascript" src="vk_loader.js?vk_layout=CN%20Chinese%20Simpl.%20Pinyin&vk_skin=flat_gray" ></script>
+		<script type="text/javascript" src="jquery-1.8.2.min.js" ></script>
+		<script>
+		function test(){
+		VirtualKeyboard.toggle('txt_Search', 'softkey');
+		$("#kb_langselector,#kb_mappingselector,#copyrights").css("display", "none");
+		}
+		</script>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -48,30 +56,19 @@
 
 				<!--悬浮搜索框-->
 
-				<div class="nav white">
-					<div class="logo"><img src="../images/logo.png" /></div>
-					<div class="logoBig">
-						<li><img src="../images/logobig.png" /></li>
-					</div>
-
-
-
-					<div class="search-bar pr">
-						<a name="index_none_header_sysc" href="#"></a>
-						<form name='form' action="b.php" method="post">
-							<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-							<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit"  name="ai-topsearch" onclick="javascript:window.location.href='introduction.html'"
-
-						</form>
-
-                       <!-- <script>
-                            function jump() {
-                                window.location.href="shopcart2.html";
-                            }
-                        </script>-->
-					</div>
-
+							<div class="nav white">
+				<div class="logo"><img src="../images/logo.png" /></div>
+				<div class="logoBig">
+					<li><img src="../images/logobig.png" /></li>
 				</div>
+				<div class="search-bar pr">
+					<a name="index_none_header_sysc" href="introduction.html"></a>
+					<form>
+						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off" href="introduction.html">
+						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit" href="introduction.html">
+					</form>
+				</div>
+			</div>
 
 				<div class="clear"></div>
 			</div>

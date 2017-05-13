@@ -34,5 +34,4 @@ class Move(object):
         # print 'turn stop'
 
 
-# Move().runRight()
 
